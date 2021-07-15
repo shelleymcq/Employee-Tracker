@@ -23,7 +23,7 @@ const init = () => {
             name: 'selectOption',
             type: 'rawlist',
             message: 'What would you like to do?',
-            choices: ['Add Department', 'Add Role', 'Add Employee', 'View Departments', 'View Roles', 'View Employees', 'EXIT']
+            choices: ['Add Department', 'Add Role', 'Add Employee', 'View Departments', 'View Roles', 'View Employees', 'Update Employee Role', 'EXIT']
     })
     .then((answer) => {
         switch(answer.selectOption) {
@@ -44,6 +44,9 @@ const init = () => {
                 break;
             case 'View Employees':
                 viewEmployees();
+                break;
+            case 'Update Employee Role':
+                updateEmployee();
                 break;
             case 'EXIT':
                 connection.end();
@@ -118,7 +121,6 @@ const addRole = () => {
     });
 }
 
-
 // Add employee
 const addEmployee = () => {
     inquirer.prompt([
@@ -158,10 +160,11 @@ const addEmployee = () => {
         );
     });
 }
+
+
 // AS used to create aliases for column titles
 
 // View departments
-
 const viewDepartments = () => {
     connection.query('SELECT name AS Departments FROM department', (err, data) => {
         if (err) throw err;
@@ -181,19 +184,37 @@ const viewRoles = () => {
 
 // View employees, first and last name concatenated for clarity
 const viewEmployees = () => {
-    connection.query('SELECT CONCAT(first_name, " ", last_name) AS Employees, role_id AS JobID FROM employee', (err, data) => {
+    connection.query('SELECT id AS EmpID, CONCAT(first_name, " ", last_name) AS Employees, role_id AS Role FROM employee', (err, data) => {
         if (err) throw err;
         console.table(data);
         init();
     });
 }
 
-// Update employee roles
 
-
-
-// aliases for columns
-
+// Update employee role
+const updateEmployee = () => {
+    inquirer.prompt([
+        {
+            name: 'empID',
+            type: 'number',
+            message: 'Enter empID number to update role'
+        },
+        {
+            name: 'newRole',
+            type: 'number',
+            message: 'Enter new role id number'
+        },
+    ])
+    .then((answer) => {
+        connection.query(
+            `UPDATE employee SET role_id = ${answer.newRole} WHERE id = ${answer.empID}`, (err, data) => {
+                if (err) throw err;
+                console.log('Employee updated');
+                init();
+            });
+    });
+}
 
 connection.connect((err) => {
     if (err) throw err;
