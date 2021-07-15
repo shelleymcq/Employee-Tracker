@@ -22,17 +22,28 @@ const init = () => {
             name: 'selectOption',
             type: 'rawlist',
             message: 'What would you like to do?',
-            choices: ['Add Department', 'Add Role', 'Add Employee', 'EXIT']
+            choices: ['Add Department', 'Add Role', 'Add Employee', 'View Departments', 'EXIT']
     })
     .then((answer) => {
-        if (answer.selectOption === 'Add Department') {
-            addDepartment();
-        } else if (answer.selectOption === 'Add Role') {
-            addRole();
-        } else if (answer.selectOption === 'Add Employee') {
-            addEmployee();
-        } else {
-            connection.end();
+        switch(answer.selectOption) {
+            case 'Add Department':
+                addDepartment();
+                break;
+            case 'Add Role':
+                addRole();
+                break;
+            case 'Add Employee':
+                addEmployee();
+                break;
+            case 'View Departments':
+                viewDepartments();
+                break;
+            case 'EXIT':
+                connection.end();
+                break;
+            default:
+                console.log(`Invalid option: ${answer.selectOption}`);
+                break;
         }
     })
 }
@@ -141,6 +152,23 @@ const addEmployee = () => {
     });
 }
 
+// View departments
+
+const viewDepartments = () => {
+    connection.query('SELECT * FROM department', (err, data) => {
+        if (err) throw err;
+        console.table(data);
+        connection.end();
+    });
+}
+
+// View roles
+
+
+// View employees
+
+
+// Update employee roles
 
 
 
