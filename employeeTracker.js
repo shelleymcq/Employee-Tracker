@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const dotenv = require('dotenv');
 const inquirer = require('inquirer');
 const MaxLengthInputPrompt = require('inquirer-maxlength-input-prompt');
+const cTable = require('console.table');
 
 const app = express();
 dotenv.config();
@@ -22,7 +23,7 @@ const init = () => {
             name: 'selectOption',
             type: 'rawlist',
             message: 'What would you like to do?',
-            choices: ['Add Department', 'Add Role', 'Add Employee', 'View Departments', 'EXIT']
+            choices: ['Add Department', 'Add Role', 'Add Employee', 'View Departments', 'View Roles', 'View Employees', 'EXIT']
     })
     .then((answer) => {
         switch(answer.selectOption) {
@@ -37,6 +38,12 @@ const init = () => {
                 break;
             case 'View Departments':
                 viewDepartments();
+                break;
+            case 'View Roles':
+                viewRoles();
+                break;
+            case 'View Employees':
+                viewEmployees();
                 break;
             case 'EXIT':
                 connection.end();
@@ -151,25 +158,41 @@ const addEmployee = () => {
         );
     });
 }
+// AS used to create aliases for column titles
 
 // View departments
 
 const viewDepartments = () => {
-    connection.query('SELECT * FROM department', (err, data) => {
+    connection.query('SELECT name AS Departments FROM department', (err, data) => {
         if (err) throw err;
         console.table(data);
-        connection.end();
+        init();
     });
 }
 
 // View roles
+const viewRoles = () => {
+    connection.query('SELECT title AS Title, department_id AS Department FROM role', (err, data) => {
+        if (err) throw err;
+        console.table(data);
+        init();
+    });
+}
 
-
-// View employees
-
+// View employees, first and last name concatenated for clarity
+const viewEmployees = () => {
+    connection.query('SELECT CONCAT(first_name, " ", last_name) AS Employees, role_id AS JobID FROM employee', (err, data) => {
+        if (err) throw err;
+        console.table(data);
+        init();
+    });
+}
 
 // Update employee roles
 
+
+
+// aliases for columns
 
 
 connection.connect((err) => {
