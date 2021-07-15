@@ -14,11 +14,40 @@ const connection = mysql.createConnection({
     database: 'employees',
 });
 
+const init = () => {
+    inquirer.prompt(
+        {
+            name: 'selectOption',
+            type: 'rawlist',
+            message: 'Enter new Department, Role, or Employee',
+            choices: ['Department', 'Role', 'Employee', 'EXIT']
+    })
+    .then((answer) => {
+        if (answer.selectOption === 'Department') {
+            console.log('dept');
+            init();
+        } else if (answer.selectOption === 'Role') {
+            console.log('role');
+            init();
+        } else if (answer.selectOption === 'Employee') {
+            console.log('emp');
+            init();
+        } else {
+            connection.end();
+        }
+    })
+}
+
+
+
+
+
+
 connection.connect((err) => {
     if (err) throw err;
     console.log(`connected as id ${connection.threadId}\n`);
     // run function on connection
-    // createEmployee();
+    init();
   });
 
 
