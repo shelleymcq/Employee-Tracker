@@ -65,6 +65,7 @@ const addDepartment = () => {
             name: 'newDepartment',
             type: 'input',
             message: 'What is the name of the department?',
+            maxLength: 30
         })
         .then((answer) => {
             // insert new department into the db
@@ -90,7 +91,6 @@ const addRole = () => {
             type: 'input',
             message: 'What is the title of the role?',
             maxLength: 30
-
         },
         {
             name: 'salary',
@@ -144,7 +144,7 @@ const addEmployee = () => {
         },
     ])
     .then((answer) => {
-        // insert new role into the db
+        // insert new employee into the db
         connection.query(
             'INSERT INTO employee SET ?',
             {
@@ -162,7 +162,7 @@ const addEmployee = () => {
 }
 
 
-// AS used to create aliases for column titles
+// AS used to create user-friendly aliases for column titles
 
 // View departments
 const viewDepartments = () => {
@@ -208,7 +208,7 @@ const updateEmployee = () => {
     ])
     .then((answer) => {
         connection.query(
-            `UPDATE employee SET role_id = ${answer.newRole} WHERE id = ${answer.empID}`, (err, data) => {
+            `UPDATE employee SET role_id = ${answer.newRole} WHERE id = ${answer.empID}`, (err) => {
                 if (err) throw err;
                 console.log('Employee updated');
                 init();
