@@ -18,6 +18,13 @@ const connection = mysql.createConnection({
 });
 
 const init = () => {
+    console.log(`
+    
+╦ ╦┌─┐┬  ┌─┐┌─┐┌┬┐┌─┐┬
+║║║├┤ │  │  │ ││││├┤ │
+╚╩╝└─┘┴─┘└─┘└─┘┴ ┴└─┘o
+
+ `)
     inquirer.prompt(
         {
             name: 'selectOption',
@@ -216,9 +223,10 @@ const updateEmployee = () => {
     });
 }
 
+
 connection.connect((err) => {
     if (err) throw err;
-    console.log(`connected as id ${connection.threadId}\n`);
+    // console.log(`connected as id ${connection.threadId}\n`);
     // run app on connection
     init();
   });
