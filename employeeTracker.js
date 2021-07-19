@@ -18,13 +18,7 @@ const connection = mysql.createConnection({
 });
 
 const init = () => {
-    console.log(`
-    
-╦ ╦┌─┐┬  ┌─┐┌─┐┌┬┐┌─┐┬
-║║║├┤ │  │  │ ││││├┤ │
-╚╩╝└─┘┴─┘└─┘└─┘┴ ┴└─┘o
-
- `)
+    console.log('Welcome to the Employee Database!')
     inquirer.prompt(
         {
             name: 'selectOption',
