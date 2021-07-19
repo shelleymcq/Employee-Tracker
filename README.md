@@ -1,7 +1,7 @@
  
 # Employee Tracker
 ## Licensing:
-#### _MIT License_
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ## Description
 This command-line app will allow a user to view, enter, and update a company's departments, roles, and employees. It was created using an express back end and MySQL database. 
 
