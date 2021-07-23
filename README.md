@@ -16,7 +16,7 @@ Download the package to your local environment, run npm init, and install the de
 ## Usage
 This app runs from the command line by using 'node employeeTracker.js' to initiate. 
 
-### *Application Demo*
+### *Application Video Demo*
 ![app demo](./images/EmpTrackerDemo.gif)
 
 ### *Schema*
